@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="alumnoApp">
+
+<head>
+    <script>
+        var usuario = JSON.parse(localStorage.getItem("usuario"));
+        console.log(usuario);
+
+        function cerrarSesion() {
+            window.localStorage.removeItem("usuario");
+            window.localStorage.clear();
+            window.location.replace("/projects/ProyectoBase/views/login/");
+        }
+
+        function validateLogin() {
+            if (!usuario) {
+                window.location.replace("/projects/ProyectoBase/views/login/");
+            }
+        }
+
+        validateLogin();
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/x-icon" href="../../public/img/icono.ico">
+    <title>Alumno</title>
+
+    <!-- Angular JQuery -->
+    <script src="../../public/js/jquery-3.3.1.min.js"></script>
+    <script src="../../public/js/angular.js"></script>
+    <script src="../../public/js/angular-route.js"></script>
+
+    <!-- Faviicion
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+        crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="../../public/font-awesome-4.7.0/css/font-awesome.css">
+
+    <!-- Include Sweeetalert -->
+    <script src="../../public/sweetalert/sweetalert.js"></script>
+
+    <link rel="stylesheet" href="../../public/css/alumno.css">
+</head>
+
+<body>
+    <div ng-controller="indexController">
+        <ul class="nav">
+            <li ng-if="conexion"><a href="#/"> <i class="fa fa-check"></i> Conectado</a></li>
+            <li ng-if="!conexion"><a href="#/"> <i class="fa fa-exclamation"></i> NO Conectado</a></li>
+            <li><a href="#/perfil"> <i class="fa fa-user"></i> Perfil</a></li>
+            <li><a href="#/cursos"> <i class="fa fa-book"></i> Cursos</a></li>
+            <li><a onclick="cerrarSesion()" href="#"> <i class="fa fa-sign-out"></i> Cerrar Sesion</a></li>
+            <li class="logo">SCHOOL <a href="#/"> <i class="fa fa-graduation-cap"></i> APP</a></li>
+        </ul>
+    </div>
+
+    <div class="padding-5 div" style="padding-bottom: 10%;">
+        <ng-view></ng-view>
+    </div>
+
+    <script src="../../public/js/views/alumno.js"></script>
+
+</body>
+
+</html>

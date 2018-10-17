@@ -1,0 +1,31 @@
+<div ng-controller="cursosController">
+    <div class="padding-5 div" style="padding-bottom: 10%;">
+        <h2 class="text-center">Mis cursos</h2>
+        <table style="width: 100%; border: 1px solid black;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha Registro</th>
+                    <th>Curso</th>
+                    <th>1 Parcial</th>
+                    <th>2 Parcial</th>
+                    <th>3 Parcial</th>
+                    <th>Final</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="usuario in cursos">
+                    <td>{{ usuario.id_calificacion }}</td>
+                    <td>{{ usuario.fecha }}</td>
+                    <td>{{ usuario.materia }}</td>
+                    <td>{{ usuario.primer_parcial }}</td>
+                    <td>{{ usuario.segundo_parcial }}</td>
+                    <td>{{ usuario.tercer_parcial }}</td>
+                    <td>{{ usuario.promedio.toFixed(2) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>

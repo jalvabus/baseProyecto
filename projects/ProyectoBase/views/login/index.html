@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="loginApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+
+    <script src="https://code.angularjs.org/1.7.5/angular.js"></script>
+    <script src="https://code.angularjs.org/1.7.5/angular-route.js"></script>
+    <link rel="icon" type="image/x-icon" href="../../public/img/icono.ico">
+
+    <script src="../../public/js/jquery-3.3.1.min.js"></script>
+
+    <!-- Include Sweeetalert -->
+    <script src="../../public/sweetalert/sweetalert.js"></script>
+
+    <link rel="stylesheet" href="../../public/css/login.css">
+
+    <!-- Faviicion
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+     crossorigin="anonymous">
+      -->
+
+    <link rel="stylesheet" href="../../public/font-awesome-4.7.0/css/font-awesome.css">
+</head>
+
+<body ng-controller="loginController">
+    <header>
+        <div class="main">
+            <ul>
+                <li ng-if="conexion"><a href="#/"> <i class="fa fa-check"></i> Conectado</a></li>
+                <li ng-if="!conexion"><a href="#/"> <i class="fa fa-exclamation"></i> NO Conectado</a></li>
+                <li>WELCOME TO SCHOOL</li><a href="">APP</a>
+            </ul>
+        </div>
+
+        <div class="form text-center">
+            <form class="formulario" id="form" autocomplete="off">
+                <h1 class="text-white">INICIO DE SESION</h1>
+                <input type="number" id="matricula" name="matricula" ng-model="usuario.matricula" placeholder="Matricula">
+                <input type="password" id="pwds" name="password" ng-model="usuario.password" placeholder="Contraseña">
+                <div ng-click="login()" class="btn">
+                    <h3>Ingresar</h3>
+                </div>
+            </form>
+        </div>
+    </header>
+
+    <script src="../../public/js/views/login.js"></script>
+
+</body>
+
+</html>

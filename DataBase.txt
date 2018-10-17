@@ -1,0 +1,208 @@
+-- Database: escuela
+
+-- DROP DATABASE escuela;
+
+CREATE DATABASE escuela
+  WITH OWNER = postgres
+       ENCODING = 'UTF8'
+       TABLESPACE = pg_default
+       LC_COLLATE = 'Spanish_Mexico.1252'
+       LC_CTYPE = 'Spanish_Mexico.1252'
+       CONNECTION LIMIT = -1;
+
+-- Table: usuario
+
+-- DROP TABLE usuario;
+
+CREATE TABLE usuario
+(
+  id_usuario serial NOT NULL,
+  matricula character varying(20),
+  password character varying(20),
+  tipo character varying(20),
+  CONSTRAINT usuario_pkey PRIMARY KEY (id_usuario)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE usuario
+  OWNER TO postgres;
+
+
+-- Table: alumno
+
+-- DROP TABLE alumno;
+
+CREATE TABLE alumno
+(
+  id_alumno serial NOT NULL,
+  nombre character varying(20),
+  apellido_paterno character varying(20),
+  apellido_materno character varying(20),
+  direccion character varying(20),
+  telefono character varying(10),
+  grupo character varying(20),
+  sexo character(1),
+  id_usuario integer,
+  CONSTRAINT alumno_pkey PRIMARY KEY (id_alumno),
+  CONSTRAINT alumno_id_usuario_fkey FOREIGN KEY (id_usuario)
+      REFERENCES usuario (id_usuario) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE alumno
+  OWNER TO postgres;
+
+
+-- Table: profesor
+
+-- DROP TABLE profesor;
+
+CREATE TABLE profesor
+(
+  id_profesor serial NOT NULL,
+  nombre character varying(20),
+  apellido_paterno character varying(20),
+  apellido_materno character varying(20),
+  id_usuario integer,
+  CONSTRAINT profesor_pkey PRIMARY KEY (id_profesor),
+  CONSTRAINT profesor_id_usuario_fkey FOREIGN KEY (id_usuario)
+      REFERENCES usuario (id_usuario) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE profesor
+  OWNER TO postgres;
+
+
+-- Table: cursos
+
+-- DROP TABLE cursos;
+
+CREATE TABLE cursos
+(
+  id_calificacion serial NOT NULL,
+  id_alumno integer,
+  id_profesor integer,
+  primer_parcial double precision,
+  segundo_parcial double precision,
+  tercer_parcial double precision,
+  fecha date,
+  materia character varying(30),
+  CONSTRAINT cursos_pkey PRIMARY KEY (id_calificacion),
+  CONSTRAINT cursos_id_alumno_fkey FOREIGN KEY (id_alumno)
+      REFERENCES alumno (id_alumno) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT cursos_id_profesor_fkey FOREIGN KEY (id_profesor)
+      REFERENCES profesor (id_profesor) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE cursos
+  OWNER TO postgres;
+
+
+
+
+
+-- INSERTAR UN PROFESOR
+CREATE OR REPLACE FUNCTION insertProfesor (
+matriculaIN VARCHAR(20),
+passwordIN VARCHAR(20),
+nombreIN VARCHAR(20),
+apellido_paternoIN VARCHAR(20),
+apellido_maternoIN VARCHAR(20),
+tipoIN VARCHAR(20)
+)
+RETURNS integer AS $$
+DECLARE id_usuario_in int;
+BEGIN 
+
+INSERT INTO usuario (matricula, password, tipo) 
+VALUES (matriculaIN, passwordIN, tipoIN);
+
+SELECT MAX(id_usuario) FROM usuario INTO id_usuario_in;
+
+INSERT INTO profesor (nombre, apellido_paterno, apellido_materno, id_usuario) 
+VALUES (nombreIN, apellido_paternoIN, apellido_maternoIN, id_usuario_in);
+
+RETURN 0;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- INSERTAR UN ALUMNO
+CREATE OR REPLACE FUNCTION insertAlumno (
+matriculaIN VARCHAR(20),
+passwordIN VARCHAR(20),
+nombreIN VARCHAR(20),
+apellido_paternoIN VARCHAR(20),
+apellido_maternoIN VARCHAR(20),
+direccionIN VARCHAR(50),
+telefonoIN VARCHAR(50),
+grupoIN VARCHAR(20),
+sexoIN CHAR(1),
+tipoIN VARCHAR(20)
+)
+RETURNS integer AS $$
+DECLARE id_usuario_in int;
+BEGIN 
+
+INSERT INTO usuario (matricula, password, tipo) 
+VALUES (matriculaIN, passwordIN, tipoIN);
+
+SELECT MAX(id_usuario) FROM usuario INTO id_usuario_in;
+
+INSERT INTO alumno (nombre, apellido_paterno, apellido_materno, direccion, telefono, grupo, sexo, id_usuario) 
+VALUES (nombreIN, apellido_paternoIN, apellido_maternoIN, direccionIN, telefonoIN, grupoIN, sexoIN, id_usuario_in);
+
+RETURN 0;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- ELIMINAR USUARIO Y ALUMNO O MAESTRO
+CREATE OR REPLACE FUNCTION deleteUsuario (
+id_usuarioIN INT
+)
+RETURNS integer AS $$
+BEGIN 
+
+DELETE FROM profesor WHERE id_usuario = id_usuarioIN;
+DELETE FROM alumno WHERE id_usuario = id_usuarioIN;
+DELETE FROM usuario where id_usuario = id_usuarioIN;
+
+RETURN 0;
+END;
+$$ LANGUAGE plpgsql;
+
+-- INSERTAR ALUMNO A CURSO
+CREATE OR REPLACE FUNCTION insertAlumnoCurso (
+id_usuarioIN INT,
+id_alumnoIN INT,
+materiaIN VARCHAR(20)
+)
+RETURNS integer AS $$
+DECLARE id_profesorIN INT;
+BEGIN 
+
+SELECT id_profesor FROM profesor WHERE id_usuario = id_usuarioIN INTO id_profesorIN;
+
+INSERT INTO cursos (id_alumno, id_profesor, materia, primer_parcial, segundo_parcial, tercer_parcial, fecha)
+VALUES (id_alumnoIN, id_profesorIN, materiaIN, 0, 0, 0, now());
+
+RETURN 0;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- INSERTAR DOS USUARIOS DE PRUEBA 
+select insertProfesor('2516360014', '123', 'Juan', 'Alva', 'Bustamante', 'Profesor');
+select insertAlumno('2516360015', '123', 'Juan', 'Alva', 'Bustamante', 'Zumpango', '551365615', '8iti1', 'M', 'Alumno');
+

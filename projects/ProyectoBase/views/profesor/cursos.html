@@ -1,0 +1,186 @@
+<div ng-controller="cursosController">
+    <h1 class="text-center">{{ mensaje }}</h1>
+
+    <div class="texto-centro">
+        <button class="button-green" ng-click="openModal()"> <i class="fa fa-user"></i> Agregar Alumno a Curso </button>
+    </div>
+
+    <ul class="topnav">
+        <li id="base"><a href="" ng-click="activeNav('base')"><h3>Base de datos </h3></a></li>
+        <li id="progra"><a href="" ng-click="activeNav('progra')"><h3>Programacion </h3></a></li>
+        <li id="ing"><a href="" ng-click="activeNav('ing')"><h3>Ing de Software</h3></a></li>
+    </ul>
+
+    <div ng-if="curso == 'base'" class="padding-5 div" style="padding-bottom: 10%;">
+        <h2 class="text-center">Base de Datos</h2>
+        <table style="width: 100%; border: 1px solid black;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha Registro</th>
+                    <th>Nombre Alumno</th>
+                    <th>1 Parcial</th>
+                    <th>2 Parcial</th>
+                    <th>3 Parcial</th>
+                    <th>4 Parcial</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="usuario in alumnos_inscritos" ng-if="usuario.materia == 'Base de Datos'">
+                    <td>{{ usuario.id_alumno }}</td>
+                    <td>{{ usuario.fecha }}</td>
+                    <td>{{ usuario.nombre }} {{ usuario.apellido_paterno }} {{ usuario.apellido_materno}} </td>
+                    <td>{{ usuario.primer_parcial }}</td>
+                    <td>{{ usuario.segundo_parcial }}</td>
+                    <td>{{ usuario.tercer_parcial }}</td>
+                    <td>{{ usuario.promedio.toFixed(2) }}</td>
+                    <td>
+                        <button ng-click="editarUsuario(usuario)" class="btn-update"> <i class="fa fa-pencil"></i> Editar</button>
+                        <button ng-click="eliminarUsuario(usuario)" class="btn-delete"> <i class="fa fa-trash"></i>
+                            Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div ng-if="curso == 'progra'" class="padding-5 div" style="padding-bottom: 10%;">
+        <h2 class="text-center">Programacion</h2>
+        <table style="width: 100%; border: 1px solid black;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha Registro</th>
+                    <th>Nombre Alumno</th>
+                    <th>1 Parcial</th>
+                    <th>2 Parcial</th>
+                    <th>3 Parcial</th>
+                    <th>4 Parcial</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="usuario in alumnos_inscritos" ng-if="usuario.materia == 'Programacion'">
+                    <td>{{ usuario.id_alumno }}</td>
+                    <td>{{ usuario.fecha }}</td>
+                    <td>{{ usuario.nombre }} {{ usuario.apellido_paterno }} {{ usuario.apellido_materno}} </td>
+                    <td>{{ usuario.primer_parcial }}</td>
+                    <td>{{ usuario.segundo_parcial }}</td>
+                    <td>{{ usuario.tercer_parcial }}</td>
+                    <td>{{ usuario.promedio.toFixed(2) }}</td>
+                    <td>
+                        <button ng-click="editarUsuario(usuario)" class="btn-update"> <i class="fa fa-pencil"></i> Editar</button>
+                        <button ng-click="eliminarUsuario(usuario)" class="btn-delete"> <i class="fa fa-trash"></i>
+                            Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div ng-if="curso == 'ing'" class="padding-5 div" style="padding-bottom: 10%;">
+        <h2 class="text-center">Ingenieria de Software</h2>
+        <table style="width: 100%; border: 1px solid black;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha Registro</th>
+                    <th>Nombre Alumno</th>
+                    <th>1 Parcial</th>
+                    <th>2 Parcial</th>
+                    <th>3 Parcial</th>
+                    <th>4 Parcial</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="usuario in alumnos_inscritos" ng-if="usuario.materia == 'Ingenieria de Software'">
+                    <td>{{ usuario.id_alumno }}</td>
+                    <td>{{ usuario.fecha }}</td>
+                    <td>{{ usuario.nombre }} {{ usuario.apellido_paterno }} {{ usuario.apellido_materno}} </td>
+                    <td>{{ usuario.primer_parcial }}</td>
+                    <td>{{ usuario.segundo_parcial }}</td>
+                    <td>{{ usuario.tercer_parcial }}</td>
+                    <td>{{ usuario.promedio.toFixed(2) }}</td>  
+                    <td>
+                        <button ng-click="editarUsuario(usuario)" class="btn-update"> <i class="fa fa-pencil"></i> Editar</button>
+                        <button ng-click="eliminarUsuario(usuario)" class="btn-delete"> <i class="fa fa-trash"></i>
+                            Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- The Modal -->
+    <div id="modalCursos" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <a class="close" ng-click="closeModal()">&times;</a>
+
+            <div class="texto-centro padding-5">
+                <h3>Registrar Alumno a Curso</h3>
+            </div>
+
+            <form id="form_usuario" class="texto-centro">
+
+                <select name="id_alumno" id="" ng-model="agregarCurso.id_alumno">
+                    <option ng-repeat="alumno in alumnos" value="{{ alumno.id_alumno }}">{{ alumno.nombre }} {{ alumno.apellido_paterno
+                        }} {{ alumno.apellido_materno }} | {{ alumno.matricula }}</option>
+                </select>
+                <br>
+                <select name="materia" id="" ng-model="agregarCurso.materia">
+                    <option value="Base de Datos">Base de Datos</option>
+                    <option value="Programacion">Programacion</option>
+                    <option value="Ingenieria de Software">Ingenieria de Software</option>
+                </select>
+
+                <div ng-if="type == 'create'">
+                    <button class="button-green" ng-click="submit()">Registrar</button>
+                </div>
+                <div ng-if="type == 'update'">
+                    <button ng-click="actualizar()" class="btn-update"> Actualizar</button>
+                    <button ng-click="cancelar()" class="btn-delete">Cancelar</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- The Modal -->
+    <div id="modalCalificaciones" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <a class="close" ng-click="closeModalCalificaciones()">&times;</a>
+
+            <div class="texto-centro padding-5">
+                <h3>Registrar Calificaciones Alumno</h3>
+                <form id="form_calificaciones" class="texto-centro">
+                    <div>
+                        <label for=""> <strong>Parcial 1</strong> </label><br>
+                        <input ng-disabled="" type="number" min="0" max="10" placeholder="Calificacion 1" name="primer_parcial" ng-model="calificaciones.primer_parcial">
+                    </div>
+                    <div>
+                        <label for=""> <strong>Parcial 2</strong> </label><br>
+                        <input ng-disabled="" type="number" min="0" max="10" placeholder="Calificacion 1" name="segundo_parcial" ng-model="calificaciones.segundo_parcial">
+                    </div>
+                    <div>
+                        <label for=""> <strong>Parcial 3</strong> </label><br>
+                        <input ng-disabled="" type="number" min="0" max="10" placeholder="Calificacion 1" name="tercer_parcial" min="0" max="10"
+                            ng-model="calificaciones.tercer_parcial">
+                    </div>
+                    <div>
+                        <button class="button-green" ng-click="submitCalificaciones()">Registrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

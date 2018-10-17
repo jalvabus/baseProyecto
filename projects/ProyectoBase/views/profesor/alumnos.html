@@ -1,0 +1,86 @@
+<div ng-controller="alumnosController">
+    <h1 class="text-center">{{ mensaje }}</h1>
+
+    <div class="texto-centro">
+        <button class="button-green" ng-click="openModal()"> <i class="fa fa-user"></i> Registrar Alumno </button>
+    </div>
+
+    <div class="padding-5 div" style="padding-bottom: 10%;">
+        <table style="width: 100%; border: 1px solid black;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Direccion</th>
+                    <th>Telefono</th>
+                    <th>Grupo</th>
+                    <th>Sexo</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="usuario in alumnos">
+                    <td>{{ usuario.id_alumno }}</td>
+                    <td>{{ usuario.nombre }}</td>
+                    <td>{{ usuario.apellido_paterno }} {{ usuario.apellido_materno}}</td>
+                    <td>{{ usuario.direccion }}</td>
+                    <td>{{ usuario.telefono }}</td>
+                    <td>{{ usuario.grupo }}</td>
+                    <td>{{ usuario.sexo }}</td>
+                    <td>
+                        <button ng-click="editarUsuario(usuario)" class="btn-update"> <i class="fa fa-pencil"></i> Editar</button>
+                        <button ng-click="eliminarUsuario(usuario)" class="btn-delete"> <i class="fa fa-trash"></i> Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <a class="close" ng-click="closeModal()">&times;</a>
+
+            <div class="texto-centro padding-5">
+                <h3>Registrar Alumno</h3>
+            </div>
+
+            <form id="form_usuario" class="texto-centro">
+
+                <input type="text" placeholder="Nombre" name="nombre" ng-model="usuario.nombre" id="nombre">
+
+                <input type="text" placeholder="Apellido Paterno" name="apellido_paterno" ng-model="usuario.apellido_paterno" id="">
+
+                <input type="text" placeholder="Apellido Materno" name="apellido_materno" ng-model="usuario.apellido_materno" id="">
+
+                <input type="text" placeholder="Direccion" name="direccion" ng-model="usuario.direccion" id="">
+
+                <input type="text" placeholder="Telefono" name="telefono" ng-model="usuario.telefono" id="">
+
+                <input type="text" placeholder="Grupo" name="grupo" ng-model="usuario.grupo" id="">
+
+                <select name="sexo" id="" ng-model="usuario.sexo">
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                </select>
+
+                <input ng-if="type == 'create'" type="text" placeholder="Matricula" name="matricula" ng-model="usuario.matricula" id="">
+
+                <div ng-if="type == 'create'">
+                    <button class="button-green" ng-click="submit()">Registrar</button>
+                </div>
+                <div ng-if="type == 'update'">
+                    <button ng-click="actualizar()" class="btn-update"> Actualizar</button>
+                    <button ng-click="cancelar()" class="btn-delete">Cancelar</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+
+</div>

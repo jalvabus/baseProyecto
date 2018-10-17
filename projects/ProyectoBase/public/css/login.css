@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Century Gothic;
+}
+
+header {
+    background-image: url('https://static.makeuseof.com/wp-content/uploads/2017/02/Photoshop-Replace-Background-Featured-670x335.jpg');
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+}
+
+ul {
+    float: right;
+    list-style-type: none;
+}
+
+ul li {
+    display: inline-block;
+    color: #fff;
+    padding: 5px 10px;
+}
+
+ul a {
+    text-decoration: none;
+    color: #fff;
+    padding: 5px 20px;
+    border: 1px solid #fff;
+}
+
+.main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+input {
+    width: 100%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border-radius: 6px;
+    border: 1px solid rgb(202, 96, 96);
+    margin-top: 20px;
+}
+
+.text-white {
+    color: white;
+}
+
+.text-center {
+    text-align: center;
+    font-size: 25px;
+}
+
+.btn {
+    padding: 12px 20px;
+    border-radius: 15px;
+    background-color: #db2d43;
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.btn:hover {
+    background-color: #ff435b;
+}
+
+.btn:active {
+    background-color: #ff435b;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+.formulario {
+    background-color: #393e46;
+    padding: 25px;
+    border-radius: 15px;
+}
